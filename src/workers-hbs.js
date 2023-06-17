@@ -51,7 +51,7 @@ function WorkersHbs() {
 	this.helpers = {};
 	this.partials = {};
 	this.decorators = {};
-	this._debug = true;
+	this._debug = false;
 
 	// default helpers
 	registerBlockHelperMissing(this);
@@ -84,7 +84,11 @@ WorkersHbs.prototype = {
 		);
 
 		const ast = this.hbs.parse(template);
-		return this.accept(ast);
+		const ret = this.accept(ast);
+
+		// clean up after ourselves in case this instance is reused
+		this.unstack('contextStack');
+		return ret;
 	},
 
 	registerHelper(name, fn) {
@@ -471,6 +475,7 @@ WorkersHbs.prototype = {
 
 	ambiguousSexpr: function (sexpr, block) {
 		const path = this.lookup(sexpr.path);
+		this.debug('ambiguousSexpr', path, this._context());
 
 		if (typeof path === 'function') {
 			const context = path.apply(this._context(), this._params(sexpr, block));
@@ -534,7 +539,7 @@ WorkersHbs.prototype = {
 				inverse: block ? this._optionsFn(sexpr.inverse) : undefined,
 				data: {
 					root: this.contextStack[this.contextStack.length - 1].context || {},
-					...(this.runtimeOptions.data || {}),
+					...(this.contextStack[0].data || {}),
 				},
 				// blockParams: [],
 				// loc: { start: { line: 1, column: 0 }, end: { line: 1, column: 57 } }
@@ -563,7 +568,7 @@ WorkersHbs.prototype = {
 			if (context !== undefined) {
 				this.unstack('contextStack');
 			}
-			if (runtimeOptions?.blockParams) {
+			if (program.blockParams && runtimeOptions?.blockParams) {
 				this.unstack('blockParams');
 			}
 			return ret;
@@ -605,6 +610,8 @@ WorkersHbs.prototype = {
 			node.hash === undefined ? context : { ...context, ...hash },
 			this.contextStack[0].data
 		);
+
+		this.debug('stackPartialContext', this.contextStack[0]);
 	},
 
 	debug: function (...args) {

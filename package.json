@@ -13,11 +13,12 @@
 		"wrangler": "^2.15.0"
 	},
 	"scripts": {
-		"build": "rimraf dist && npm run build:js && npm run build:d",
-		"build:dev": "rimraf dist && npm run build:d && npm run build:js-dev",
-		"build:js": "npx esbuild --bundle --minify --platform=node --outfile=dist/index.js ./src/index.ts",
-		"build:js-dev": "npx esbuild --bundle --watch --platform=node --outfile=dist/index.js ./src/index.ts",
-		"build:d": "tsc -p . --excludeFiles \"*.test.ts\"",
+		"build": "rimraf dist && npm run build:types && npm run build:js",
+		"build:dev": "rimraf dist && npm run build:types && npm run build:js-dev",
+		"build:js": "npx esbuild --bundle --minify --platform=node --outfile=dist/index.js ./src/index.js",
+		"build:js-dev": "npx esbuild --bundle --watch --platform=node --outfile=dist/index.js ./src/index.js",
+		"build:typesxx": "tsc -p . --excludeFiles \"*.test.ts\"",
+		"build:types": "mkdir dist && echo \"declare module 'workers-hbs';\" > dist/index.d.ts",
 		"local": "wrangler dev --local main.js --compatibility-date=2023-04-12 --node-compat",
 		"test": "jest --rootDir=tests/"
 	},

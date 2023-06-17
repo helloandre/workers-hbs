@@ -1402,7 +1402,7 @@ describe('Comprehensive', function () {
 					test('no overrides', function () {
 						expectTemplate('{{#foo.bar}}inner {{fizz}}{{/foo.bar}}')
 							// .debug()
-							.useHandlebars()
+							// .useHandlebars()
 							.withInput({
 								fizz: 'buzz',
 							})
@@ -1412,7 +1412,7 @@ describe('Comprehensive', function () {
 					test('inverse gets rendered', function () {
 						expectTemplate('{{#foo.bar}}inner {{fizz}}{{else}}inverse {{fizz}}{{/foo.bar}}')
 							// .debug()
-							.useHandlebars()
+							// .useHandlebars()
 							.withInput({
 								fizz: 'buzz',
 							})
@@ -1590,7 +1590,7 @@ describe('Comprehensive', function () {
 				test('uses correct context', function () {
 					expectTemplate('{{> foo }}')
 						// .debug()
-						.useHandlebars()
+						// .useHandlebars()
 						.withInput({
 							fizz: 'buzz',
 						})
@@ -1598,6 +1598,30 @@ describe('Comprehensive', function () {
 							foo: '{{fizz}}',
 						})
 						.toCompileTo('buzz');
+				});
+
+				test.only('additional runtimeOptions.data preserved from parent block', function () {
+					expectTemplate('{{#outside}}{{#inside}}{{> foo }}{{/inside}}{{/outside}}')
+						// .debug()
+						// .useHandlebars()
+						.withRuntimeOptions({
+							data: {
+								bar: 'baz',
+							},
+						})
+						.withHelpers({
+							outside: function (options) {
+								const data = { bar: 'inga' };
+								return options.fn(this, { data });
+							},
+							inside: function (options) {
+								return options.fn(this, { data: options.data });
+							},
+						})
+						.withPartials({
+							foo: '{{@bar}}',
+						})
+						.toCompileTo('inga');
 				});
 			});
 
