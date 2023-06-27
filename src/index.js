@@ -1,4 +1,5 @@
 const WorkersHbs = require('./workers-hbs');
+const Handlebars = require('handlebars');
 
 function render(template, context, runtimeOptions, compileOptions) {
 	return new WorkersHbs().render(template, context, runtimeOptions, compileOptions);
@@ -17,4 +18,5 @@ module.exports = {
 	compile,
 	precompile,
 	WorkersHbs,
+	Handlebars,
 };
