@@ -1,24 +1,27 @@
 {
 	"name": "workers-hbs",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"main": "dist/index.js",
-	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20230404.0",
-		"esbuild": "^0.17.16",
-		"jest": "^29.5.0",
-		"rimraf": "^5.0.0",
-		"wrangler": "^2.15.0"
-	},
+	"repository": "github.com/helloandre/workers-hbs",
+	"author": "Andre Bluehs <hello@andre.blue>",
+	"license": "MIT",
 	"scripts": {
-		"build": "rimraf dist && npm run build:js && npm run types",
-		"build:dev": "rimraf dist && npm run build:js-dev",
+		"build": "rimraf dist && npm run build:js && npm run build:types",
 		"build:js": "esbuild --bundle --minify --platform=node --outfile=dist/index.js ./src/index.js",
+		"build:types": "echo \"declare module 'workers-hbs'\" > ./dist/index.d.ts",
+		"build:dev": "rimraf dist && npm run build:js-dev",
 		"build:js-dev": "esbuild --bundle --watch --platform=node --outfile=dist/index.js ./src/index.js",
 		"test": "jest --rootDir=tests/",
-		"types": "echo \"declare module 'workers-hbs'\" > ./dist/index.d.ts"
+		"example": "wrangler dev example.js --node-compat"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20230518.0",
+		"esbuild": "^0.18.11",
+		"jest": "^29.5.0",
+		"rimraf": "^5.0.0",
+		"wrangler": "^3.1.1"
 	},
 	"dependencies": {
-		"@handlebars/parser": "^2.1.0",
 		"handlebars": "^4.7.7"
 	}
 }
