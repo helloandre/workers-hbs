@@ -452,192 +452,192 @@ describe('builtin helpers', function () {
 		}
 	});
 
-	// describe('#log', function () {
-	// 	/* eslint-disable no-console */
-	// 	if (typeof console === 'undefined') {
-	// 		return;
-	// 	}
+	describe.skip('#log', function () {
+		/* eslint-disable no-console */
+		if (typeof console === 'undefined') {
+			return;
+		}
 
-	// 	var $log, $info, $error;
-	// 	beforeEach(function () {
-	// 		$log = console.log;
-	// 		$info = console.info;
-	// 		$error = console.error;
-	// 	});
-	// 	afterEach(function () {
-	// 		console.log = $log;
-	// 		console.info = $info;
-	// 		console.error = $error;
-	// 	});
+		var $log, $info, $error;
+		beforeEach(function () {
+			$log = console.log;
+			$info = console.info;
+			$error = console.error;
+		});
+		afterEach(function () {
+			console.log = $log;
+			console.info = $info;
+			console.error = $error;
+		});
 
-	// 	it('should call logger at default level', function () {
-	// 		var levelArg, logArg;
-	// 		handlebarsEnv.log = function (level, arg) {
-	// 			levelArg = level;
-	// 			logArg = arg;
-	// 		};
+		it('should call logger at default level', function () {
+			var levelArg, logArg;
+			handlebarsEnv.log = function (level, arg) {
+				levelArg = level;
+				logArg = arg;
+			};
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withMessage('log should not display')
-	// 			.toCompileTo('');
-	// 		equals(1, levelArg, 'should call log with 1');
-	// 		equals('whee', logArg, "should call log with 'whee'");
-	// 	});
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withMessage('log should not display')
+				.toCompileTo('');
+			equals(1, levelArg, 'should call log with 1');
+			equals('whee', logArg, "should call log with 'whee'");
+		});
 
-	// 	it('should call logger at data level', function () {
-	// 		var levelArg, logArg;
-	// 		handlebarsEnv.log = function (level, arg) {
-	// 			levelArg = level;
-	// 			logArg = arg;
-	// 		};
+		it('should call logger at data level', function () {
+			var levelArg, logArg;
+			handlebarsEnv.log = function (level, arg) {
+				levelArg = level;
+				logArg = arg;
+			};
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withRuntimeOptions({ data: { level: '03' } })
-	// 			.withCompileOptions({ data: true })
-	// 			.toCompileTo('');
-	// 		equals('03', levelArg);
-	// 		equals('whee', logArg);
-	// 	});
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withRuntimeOptions({ data: { level: '03' } })
+				.withCompileOptions({ data: true })
+				.toCompileTo('');
+			equals('03', levelArg);
+			equals('whee', logArg);
+		});
 
-	// 	it('should output to info', function () {
-	// 		var called;
+		it('should output to info', function () {
+			var called;
 
-	// 		console.info = function (info) {
-	// 			equals('whee', info);
-	// 			called = true;
-	// 			console.info = $info;
-	// 			console.log = $log;
-	// 		};
-	// 		console.log = function (log) {
-	// 			equals('whee', log);
-	// 			called = true;
-	// 			console.info = $info;
-	// 			console.log = $log;
-	// 		};
+			console.info = function (info) {
+				equals('whee', info);
+				called = true;
+				console.info = $info;
+				console.log = $log;
+			};
+			console.log = function (log) {
+				equals('whee', log);
+				called = true;
+				console.info = $info;
+				console.log = $log;
+			};
 
-	// 		expectTemplate('{{log blah}}').withInput({ blah: 'whee' }).toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah}}').withInput({ blah: 'whee' }).toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should log at data level', function () {
-	// 		var called;
+		it('should log at data level', function () {
+			var called;
 
-	// 		console.error = function (log) {
-	// 			equals('whee', log);
-	// 			called = true;
-	// 			console.error = $error;
-	// 		};
+			console.error = function (log) {
+				equals('whee', log);
+				called = true;
+				console.error = $error;
+			};
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withRuntimeOptions({ data: { level: '03' } })
-	// 			.withCompileOptions({ data: true })
-	// 			.toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withRuntimeOptions({ data: { level: '03' } })
+				.withCompileOptions({ data: true })
+				.toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should handle missing logger', function () {
-	// 		var called = false;
+		it('should handle missing logger', function () {
+			var called = false;
 
-	// 		console.error = undefined;
-	// 		console.log = function (log) {
-	// 			equals('whee', log);
-	// 			called = true;
-	// 			console.log = $log;
-	// 		};
+			console.error = undefined;
+			console.log = function (log) {
+				equals('whee', log);
+				called = true;
+				console.log = $log;
+			};
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withRuntimeOptions({ data: { level: '03' } })
-	// 			.withCompileOptions({ data: true })
-	// 			.toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withRuntimeOptions({ data: { level: '03' } })
+				.withCompileOptions({ data: true })
+				.toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should handle string log levels', function () {
-	// 		var called;
+		it('should handle string log levels', function () {
+			var called;
 
-	// 		console.error = function (log) {
-	// 			equals('whee', log);
-	// 			called = true;
-	// 		};
+			console.error = function (log) {
+				equals('whee', log);
+				called = true;
+			};
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withRuntimeOptions({ data: { level: 'error' } })
-	// 			.withCompileOptions({ data: true })
-	// 			.toCompileTo('');
-	// 		equals(true, called);
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withRuntimeOptions({ data: { level: 'error' } })
+				.withCompileOptions({ data: true })
+				.toCompileTo('');
+			equals(true, called);
 
-	// 		called = false;
+			called = false;
 
-	// 		expectTemplate('{{log blah}}')
-	// 			.withInput({ blah: 'whee' })
-	// 			.withRuntimeOptions({ data: { level: 'ERROR' } })
-	// 			.withCompileOptions({ data: true })
-	// 			.toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah}}')
+				.withInput({ blah: 'whee' })
+				.withRuntimeOptions({ data: { level: 'ERROR' } })
+				.withCompileOptions({ data: true })
+				.toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should handle hash log levels', function () {
-	// 		var called;
+		it('should handle hash log levels', function () {
+			var called;
 
-	// 		console.error = function (log) {
-	// 			equals('whee', log);
-	// 			called = true;
-	// 		};
+			console.error = function (log) {
+				equals('whee', log);
+				called = true;
+			};
 
-	// 		expectTemplate('{{log blah level="error"}}').withInput({ blah: 'whee' }).toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah level="error"}}').withInput({ blah: 'whee' }).toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should handle hash log levels', function () {
-	// 		var called = false;
+		it('should handle hash log levels', function () {
+			var called = false;
 
-	// 		console.info =
-	// 			console.log =
-	// 			console.error =
-	// 			console.debug =
-	// 				function () {
-	// 					called = true;
-	// 					console.info = console.log = console.error = console.debug = $log;
-	// 				};
+			console.info =
+				console.log =
+				console.error =
+				console.debug =
+					function () {
+						called = true;
+						console.info = console.log = console.error = console.debug = $log;
+					};
 
-	// 		expectTemplate('{{log blah level="debug"}}').withInput({ blah: 'whee' }).toCompileTo('');
-	// 		equals(false, called);
-	// 	});
+			expectTemplate('{{log blah level="debug"}}').withInput({ blah: 'whee' }).toCompileTo('');
+			equals(false, called);
+		});
 
-	// 	it('should pass multiple log arguments', function () {
-	// 		var called;
+		it('should pass multiple log arguments', function () {
+			var called;
 
-	// 		console.info = console.log = function (log1, log2, log3) {
-	// 			equals('whee', log1);
-	// 			equals('foo', log2);
-	// 			equals(1, log3);
-	// 			called = true;
-	// 			console.log = $log;
-	// 		};
+			console.info = console.log = function (log1, log2, log3) {
+				equals('whee', log1);
+				equals('foo', log2);
+				equals(1, log3);
+				called = true;
+				console.log = $log;
+			};
 
-	// 		expectTemplate('{{log blah "foo" 1}}').withInput({ blah: 'whee' }).toCompileTo('');
-	// 		equals(true, called);
-	// 	});
+			expectTemplate('{{log blah "foo" 1}}').withInput({ blah: 'whee' }).toCompileTo('');
+			equals(true, called);
+		});
 
-	// 	it('should pass zero log arguments', function () {
-	// 		var called;
+		it('should pass zero log arguments', function () {
+			var called;
 
-	// 		console.info = console.log = function () {
-	// 			expect(arguments.length).to.equal(0);
-	// 			called = true;
-	// 			console.log = $log;
-	// 		};
+			console.info = console.log = function () {
+				expect(arguments.length).to.equal(0);
+				called = true;
+				console.log = $log;
+			};
 
-	// 		expectTemplate('{{log}}').withInput({ blah: 'whee' }).toCompileTo('');
-	// 		expect(called).to.be.true();
-	// 	});
-	// 	/* eslint-enable no-console */
-	// });
+			expectTemplate('{{log}}').withInput({ blah: 'whee' }).toCompileTo('');
+			expect(called).to.be.true();
+		});
+		/* eslint-enable no-console */
+	});
 
 	describe('#lookup', function () {
 		it('should lookup arbitrary content', function () {

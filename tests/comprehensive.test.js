@@ -1600,7 +1600,7 @@ describe('Comprehensive', function () {
 						.toCompileTo('buzz');
 				});
 
-				test.only('additional runtimeOptions.data preserved from parent block', function () {
+				test('additional runtimeOptions.data preserved from parent block', function () {
 					expectTemplate('{{#outside}}{{#inside}}{{> foo }}{{/inside}}{{/outside}}')
 						// .debug()
 						// .useHandlebars()

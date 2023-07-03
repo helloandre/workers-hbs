@@ -56,16 +56,16 @@ describe('helpers', function () {
 			runWithIdentityHelper('{{{{identity}}}}{{{{/identity}}}}', '');
 		});
 
-		// it('helper for nested raw block works if nested raw blocks are broken', function () {
-		// This test was introduced in 4.4.4, but it was not the actual problem that lead to the patch release
-		// The test is deactivated, because in 3.x this template cases an exception and it also does not work in 4.4.3
-		// If anyone can make this template work without breaking everything else, then go for it,
-		// but for now, this is just a known bug, that will be documented.
-		// runWithIdentityHelper(
-		// 	'{{{{identity}}}} {{{{a}}}} {{{{ {{{{/ }}}} }}}} {{{{/identity}}}}',
-		// 	' {{{{a}}}} {{{{ {{{{/ }}}} }}}} '
-		// );
-		// });
+		it.skip('helper for nested raw block works if nested raw blocks are broken', function () {
+			// This test was introduced in 4.4.4, but it was not the actual problem that lead to the patch release
+			// The test is deactivated, because in 3.x this template cases an exception and it also does not work in 4.4.3
+			// If anyone can make this template work without breaking everything else, then go for it,
+			// but for now, this is just a known bug, that will be documented.
+			runWithIdentityHelper(
+				'{{{{identity}}}} {{{{a}}}} {{{{ {{{{/ }}}} }}}} {{{{/identity}}}}',
+				' {{{{a}}}} {{{{ {{{{/ }}}} }}}} '
+			);
+		});
 
 		it('helper for nested raw block closes after first matching close', function () {
 			runWithIdentityHelper(
@@ -339,21 +339,21 @@ describe('helpers', function () {
 				.toCompileTo('helper');
 		});
 
-		// it('the helper hash should augment the global hash', function () {
-		// 	const hbs = new WorkersHbs();
-		// 	hbs.registerHelper('test_helper', function () {
-		// 		return 'found it!';
-		// 	});
+		it.skip('the helper hash should augment the global hash', function () {
+			const hbs = new WorkersHbs();
+			hbs.registerHelper('test_helper', function () {
+				return 'found it!';
+			});
 
-		// 	expectTemplate('{{test_helper}} {{#if cruel}}Goodbye {{cruel}} {{world}}!{{/if}}')
-		// 		.withInput({ cruel: 'cruel' })
-		// 		.withHelpers({
-		// 			world: function () {
-		// 				return 'world!';
-		// 			},
-		// 		})
-		// 		.toCompileTo('found it! Goodbye cruel world!!');
-		// });
+			expectTemplate('{{test_helper}} {{#if cruel}}Goodbye {{cruel}} {{world}}!{{/if}}')
+				.withInput({ cruel: 'cruel' })
+				.withHelpers({
+					world: function () {
+						return 'world!';
+					},
+				})
+				.toCompileTo('found it! Goodbye cruel world!!');
+		});
 	});
 
 	describe('registration', function () {
@@ -371,24 +371,24 @@ describe('helpers', function () {
 			equals(regHbs.helpers.foo, undefined);
 		});
 
-		// it('allows multiple globals', function () {
-		// 	var helpers = regHbs.helpers;
-		// 	regHbs.helpers = {};
+		it.skip('allows multiple globals', function () {
+			var helpers = regHbs.helpers;
+			regHbs.helpers = {};
 
-		// 	regHbs.registerHelper({
-		// 		if: helpers['if'],
-		// 		world: function () {
-		// 			return 'world!';
-		// 		},
-		// 		testHelper: function () {
-		// 			return 'found it!';
-		// 		},
-		// 	});
+			regHbs.registerHelper({
+				if: helpers['if'],
+				world: function () {
+					return 'world!';
+				},
+				testHelper: function () {
+					return 'found it!';
+				},
+			});
 
-		// 	expectTemplate('{{testHelper}} {{#if cruel}}Goodbye {{cruel}} {{world}}!{{/if}}')
-		// 		.withInput({ cruel: 'cruel' })
-		// 		.toCompileTo('found it! Goodbye cruel world!!');
-		// });
+			expectTemplate('{{testHelper}} {{#if cruel}}Goodbye {{cruel}} {{world}}!{{/if}}')
+				.withInput({ cruel: 'cruel' })
+				.toCompileTo('found it! Goodbye cruel world!!');
+		});
 
 		it('fails with multiple and args', function () {
 			expect(function () {

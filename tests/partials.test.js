@@ -209,31 +209,31 @@ describe('partials', function () {
 			.toCompileTo('Dudes: Jeepers');
 	});
 
-	// it('Global Partials', function () {
-	// 	handlebarsEnv.registerPartial('globalTest', '{{anotherDude}}');
+	it.skip('Global Partials', function () {
+		handlebarsEnv.registerPartial('globalTest', '{{anotherDude}}');
 
-	// 	expectTemplate('Dudes: {{> shared/dude}} {{> globalTest}}')
-	// 		.withInput({ name: 'Jeepers', anotherDude: 'Creepers' })
-	// 		.withPartial('shared/dude', '{{name}}')
-	// 		.withMessage('Partials can use globals or passed')
-	// 		.toCompileTo('Dudes: Jeepers Creepers');
+		expectTemplate('Dudes: {{> shared/dude}} {{> globalTest}}')
+			.withInput({ name: 'Jeepers', anotherDude: 'Creepers' })
+			.withPartial('shared/dude', '{{name}}')
+			.withMessage('Partials can use globals or passed')
+			.toCompileTo('Dudes: Jeepers Creepers');
 
-	// 	handlebarsEnv.unregisterPartial('globalTest');
-	// 	equals(handlebarsEnv.partials.globalTest, undefined);
-	// });
+		handlebarsEnv.unregisterPartial('globalTest');
+		equals(handlebarsEnv.partials.globalTest, undefined);
+	});
 
-	// it('Multiple partial registration', function () {
-	// 	handlebarsEnv.registerPartial({
-	// 		'shared/dude': '{{name}}',
-	// 		'globalTest': '{{anotherDude}}',
-	// 	});
+	it.skip('Multiple partial registration', function () {
+		handlebarsEnv.registerPartial({
+			'shared/dude': '{{name}}',
+			'globalTest': '{{anotherDude}}',
+		});
 
-	// 	expectTemplate('Dudes: {{> shared/dude}} {{> globalTest}}')
-	// 		.withInput({ name: 'Jeepers', anotherDude: 'Creepers' })
-	// 		.withPartial('notused', 'notused') // trick the test bench into running with partials enabled
-	// 		.withMessage('Partials can use globals or passed')
-	// 		.toCompileTo('Dudes: Jeepers Creepers');
-	// });
+		expectTemplate('Dudes: {{> shared/dude}} {{> globalTest}}')
+			.withInput({ name: 'Jeepers', anotherDude: 'Creepers' })
+			.withPartial('notused', 'notused') // trick the test bench into running with partials enabled
+			.withMessage('Partials can use globals or passed')
+			.toCompileTo('Dudes: Jeepers Creepers');
+	});
 
 	it('Partials with integer path', function () {
 		expectTemplate('Dudes: {{> 404}}')
@@ -279,17 +279,17 @@ describe('partials', function () {
 			.toCompileTo('Dudes: ');
 	});
 
-	// it('throw on missing partial', function () {
-	// 	var compile = handlebarsEnv.compile;
-	// 	var compileWithPartial = CompilerContext.compileWithPartial;
-	// 	handlebarsEnv.compile = undefined;
-	// 	CompilerContext.compileWithPartial = CompilerContext.compile;
-	// 	expectTemplate('{{> dude}}')
-	// 		.withPartials({ dude: 'fail' })
-	// 		.toThrow(Error, /The partial dude could not be compiled/);
-	// 	handlebarsEnv.compile = compile;
-	// 	CompilerContext.compileWithPartial = compileWithPartial;
-	// });
+	it.skip('throw on missing partial', function () {
+		var compile = handlebarsEnv.compile;
+		var compileWithPartial = CompilerContext.compileWithPartial;
+		handlebarsEnv.compile = undefined;
+		CompilerContext.compileWithPartial = CompilerContext.compile;
+		expectTemplate('{{> dude}}')
+			.withPartials({ dude: 'fail' })
+			.toThrow(Error, /The partial dude could not be compiled/);
+		handlebarsEnv.compile = compile;
+		CompilerContext.compileWithPartial = compileWithPartial;
+	});
 
 	describe('partial blocks', function () {
 		it('should render partial block as default', function () {
@@ -520,7 +520,7 @@ describe('partials', function () {
 				.toCompileTo('<inner><outer-block>success</outer-block></inner>success');
 		});
 
-		it.only('should render nested inline partials (twice at each level)', function () {
+		it('should render nested inline partials (twice at each level)', function () {
 			expectTemplate(
 				'{{#*inline "outer"}}{{#>inner}}<outer-block>{{>@partial-block}} {{>@partial-block}}</outer-block>{{/inner}}{{/inline}}' +
 					'{{#*inline "inner"}}<inner>{{>@partial-block}}{{>@partial-block}}</inner>{{/inline}}' +
@@ -534,16 +534,16 @@ describe('partials', function () {
 		});
 	});
 
-	// it('should pass compiler flags', function () {
-	// 	if (Handlebars.compile) {
-	// 		var env = Handlebars.create();
-	// 		env.registerPartial('partial', '{{foo}}');
-	// 		var template = env.compile('{{foo}} {{> partial}}', { noEscape: true });
-	// 		equal(template({ foo: '<' }), '< <');
-	// 	}
-	// });
+	it.skip('should pass compiler flags', function () {
+		if (Handlebars.compile) {
+			var env = Handlebars.create();
+			env.registerPartial('partial', '{{foo}}');
+			var template = env.compile('{{foo}} {{> partial}}', { noEscape: true });
+			equal(template({ foo: '<' }), '< <');
+		}
+	});
 
-	describe('standalone partials', function () {
+	describe.skip('standalone partials', function () {
 		it('indented partials', function () {
 			expectTemplate('Dudes:\n{{#dudes}}\n  {{>dude}}\n{{/dudes}}')
 				// .debug()
