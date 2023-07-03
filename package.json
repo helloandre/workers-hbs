@@ -12,7 +12,8 @@
 		"build:dev": "rimraf dist && npm run build:js-dev",
 		"build:js-dev": "esbuild --bundle --watch --platform=node --outfile=dist/index.js ./src/index.js",
 		"test": "jest --rootDir=tests/",
-		"example": "wrangler dev example.js --node-compat"
+		"example": "wrangler dev example.js --node-compat",
+		"prepack": "npm run build"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20230518.0",
