@@ -16,7 +16,7 @@ Mostly you'll only need the `.render()` function, but the other functions you ma
 
 ```javascript
 // main.js
-import { render } from './src/index';
+import { render } from 'workers-hbs';
 
 export default {
 	fetch() {
